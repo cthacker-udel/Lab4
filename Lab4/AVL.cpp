@@ -36,6 +36,7 @@ void AVL::printTreePost(TNode *tmp) {
 }
 /********************* method 3 *******************************/
 TNode *AVL::find(string a) {
+	int ct = 0;
 	if (root == NULL) {
 		if (debug) {
 		   cout << "root is null " << a << endl;
@@ -56,6 +57,7 @@ TNode *AVL::find(string a) {
 					return NULL;
 				}
 				else {
+					ct++;
 					tmp=tmp->left;
 				}
 			}
@@ -67,12 +69,13 @@ TNode *AVL::find(string a) {
 					return NULL;
 				}
 				else {
+					ct++;
 					tmp=tmp->right;
 				}
 			}
 			else {
 				if (debug) {
-					//cout << " in " << ct << endl;
+					cout << " in " << ct << endl;
 				}
 				return tmp;
 			}
