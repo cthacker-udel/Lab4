@@ -13,29 +13,29 @@
 /* down and you'll see the constructors)                      */
 /**************************************************************/
 /********************* method 1 *******************************/
-void AVL::_______________________(TNode *tmp) {
+void AVL::printTreePre(TNode *tmp) {
 	if (tmp == NULL) {
 		return;
 	}
 	else {
 		tmp->printNode(debug);
-		_______________________(tmp->left);
-		_______________________(tmp->right);
+		printTreePre((tmp->left));
+		printTreePre((tmp->right));
 	}
 }
 /********************* method 2 *******************************/
-void AVL::___________________(TNode *tmp) {
+void AVL::printTreePost(TNode *tmp) {
 	if (tmp == NULL) {
 		return;
 	}
 	else {
-		___________________(tmp->left);
-		___________________(tmp->right);
+		printTreePost((tmp->left));
+		printTreePost((tmp->right));
 		tmp->printNode(debug);
 	}
 }
 /********************* method 3 *******************************/
-TNode *AVL::____________________(string a) {
+TNode *AVL::find(string a) {
 	if (root == NULL) {
 		if (debug) {
 		   cout << "root is null " << a << endl;
@@ -81,18 +81,18 @@ TNode *AVL::____________________(string a) {
 	return NULL;
 }
 /********************* method 4 *******************************/
-void AVL::________________(TNode *tmp) {
+void AVL::printTreeIO(TNode *tmp) {
 	if (tmp == NULL) {
 		return;
 	}
 	else {
-		____________________(tmp->left);
+		printTreeIO((tmp->left));
 		tmp->printNode(debug);
-		____________________(tmp->right);
+		printTreeIO((tmp->right));
 	}
 }
 /********************* method 5 *******************************/
-bool AVL::___________________(string ab, string d) {
+bool AVL::insert(string ab, string d) {
 	TNode *newnode = new TNode(ab, d, debug);
 
 	if (root == NULL) {		
