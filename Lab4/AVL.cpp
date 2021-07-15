@@ -109,6 +109,11 @@ bool AVL::insert(string ab, string d) {
 				if (tmp->left == NULL) {
 					tmp->left = newnode;
 					tmp->left->parent = tmp;
+					TNode *tmpParent = tmp;
+					while(tmpParent != NULL){
+						setHeight(tmpParent);
+						tmpParent = tmpParent->parent;
+					}
 					return true;
 				}
 				else {
@@ -119,6 +124,11 @@ bool AVL::insert(string ab, string d) {
 				if (tmp->right == NULL) {
 					tmp->right = newnode;
 					tmp->right->parent = tmp;
+					TNode *tmpParent = tmp;
+					while(tmpParent != NULL){
+						setHeight(tmpParent);
+						tmpParent = tmpParent->parent;
+					}
 					return true;
 				}
 				else {
