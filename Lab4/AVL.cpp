@@ -13,138 +13,7 @@
 /* down and you'll see the constructors)                      */
 /**************************************************************/
 /********************* method 1 *******************************/
-void AVL::printTreePre(TNode *tmp) {
-	if (tmp == NULL) {
-		return;
-	}
-	else {
-		tmp->printNode(debug);
-		printTreePre((tmp->left));
-		printTreePre((tmp->right));
-	}
-}
-/********************* method 2 *******************************/
-void AVL::printTreePost(TNode *tmp) {
-	if (tmp == NULL) {
-		return;
-	}
-	else {
-		printTreePost((tmp->left));
-		printTreePost((tmp->right));
-		tmp->printNode(debug);
-	}
-}
-/********************* method 3 *******************************/
-TNode *AVL::find(string a) {
-	int ct = 0;
-	if (root == NULL) {
-		if (debug) {
-		   cout << "root is null " << a << endl;
-		}
-		return NULL;
-	}
-	else {
-		TNode *tmp = root;
-		while (tmp != NULL) {
-			if (debug) {
-				cout <<tmp->abbr << " and "<<a << endl;
-			}
-			if (a < tmp->abbr) {
-				if (debug) {
-					cout << "going left " << endl;
-				}
-				if (tmp->left == NULL) {
-					return NULL;
-				}
-				else {
-					ct++;
-					tmp=tmp->left;
-				}
-			}
-			else if (a > tmp->abbr) {
-				if (debug) {
-					cout << "going right " << endl;
-				}
-				if (tmp->right == NULL) {
-					return NULL;
-				}
-				else {
-					ct++;
-					tmp=tmp->right;
-				}
-			}
-			else {
-				if (debug) {
-					cout << " in " << ct << endl;
-				}
-				return tmp;
-			}
-		}
-	}
-	return NULL;
-}
-/********************* method 4 *******************************/
-void AVL::printTreeIO(TNode *tmp) {
-	if (tmp == NULL) {
-		return;
-	}
-	else {
-		printTreeIO((tmp->left));
-		tmp->printNode(debug);
-		printTreeIO((tmp->right));
-	}
-}
-/********************* method 5 *******************************/
-bool AVL::insert(string ab, string d) {
-	TNode *newnode = new TNode(ab, d, debug);
 
-	if (root == NULL) {		
-		if (debug ) {
-		    cout << "root NULL" << endl;
-		}
-		root = newnode;
-		return true;
-	}
-	else {
-		TNode *tmp = root;
-		while (tmp != NULL){
-			if (newnode->abbr < tmp->abbr) {
-				if (tmp->left == NULL) {
-					tmp->left = newnode;
-					tmp->left->parent = tmp;
-					TNode *tmpParent = tmp;
-					while(tmpParent != NULL){
-						setHeight(tmpParent);
-						tmpParent = tmpParent->parent;
-					}
-					return true;
-				}
-				else {
-					tmp=tmp->left;
-				}
-			}
-			else if (newnode->abbr > tmp->abbr) {
-				if (tmp->right == NULL) {
-					tmp->right = newnode;
-					tmp->right->parent = tmp;
-					TNode *tmpParent = tmp;
-					while(tmpParent != NULL){
-						setHeight(tmpParent);
-						tmpParent = tmpParent->parent;
-					}
-					return true;
-				}
-				else {
-					tmp=tmp->right;
-				}
-			}
-			else {
-				return false;
-			}
-		}
-	}
-	return false;
-}
 /*******************End of Naming Methods*********************/
 /* Now move the methods above (with the blanks filled in     */
 /* correctly below the constructors, below                   */
@@ -280,4 +149,137 @@ void AVL::clearTree(TNode *tmp) {
 		tmp->printNode();
 		delete(tmp);
 	}
+}
+
+void AVL::printTreePre(TNode *tmp) {
+	if (tmp == NULL) {
+		return;
+	}
+	else {
+		tmp->printNode(debug);
+		printTreePre((tmp->left));
+		printTreePre((tmp->right));
+	}
+}
+/********************* method 2 *******************************/
+void AVL::printTreePost(TNode *tmp) {
+	if (tmp == NULL) {
+		return;
+	}
+	else {
+		printTreePost((tmp->left));
+		printTreePost((tmp->right));
+		tmp->printNode(debug);
+	}
+}
+/********************* method 3 *******************************/
+TNode *AVL::find(string a) {
+	int ct = 0;
+	if (root == NULL) {
+		if (debug) {
+		   cout << "root is null " << a << endl;
+		}
+		return NULL;
+	}
+	else {
+		TNode *tmp = root;
+		while (tmp != NULL) {
+			if (debug) {
+				cout <<tmp->abbr << " and "<<a << endl;
+			}
+			if (a < tmp->abbr) {
+				if (debug) {
+					cout << "going left " << endl;
+				}
+				if (tmp->left == NULL) {
+					return NULL;
+				}
+				else {
+					ct++;
+					tmp=tmp->left;
+				}
+			}
+			else if (a > tmp->abbr) {
+				if (debug) {
+					cout << "going right " << endl;
+				}
+				if (tmp->right == NULL) {
+					return NULL;
+				}
+				else {
+					ct++;
+					tmp=tmp->right;
+				}
+			}
+			else {
+				if (debug) {
+					cout << " in " << ct << endl;
+				}
+				return tmp;
+			}
+		}
+	}
+	return NULL;
+}
+/********************* method 4 *******************************/
+void AVL::printTreeIO(TNode *tmp) {
+	if (tmp == NULL) {
+		return;
+	}
+	else {
+		printTreeIO((tmp->left));
+		tmp->printNode(debug);
+		printTreeIO((tmp->right));
+	}
+}
+/********************* method 5 *******************************/
+bool AVL::insert(string ab, string d) {
+	TNode *newnode = new TNode(ab, d, debug);
+
+	if (root == NULL) {
+		if (debug ) {
+		    cout << "root NULL" << endl;
+		}
+		root = newnode;
+		return true;
+	}
+	else {
+		TNode *tmp = root;
+		while (tmp != NULL){
+			if (newnode->abbr < tmp->abbr) {
+				if (tmp->left == NULL) {
+					tmp->left = newnode;
+					tmp->left->parent = tmp;
+					TNode *tmpParent = tmp;
+					while(tmpParent != NULL){
+						setHeight(tmpParent);
+						tmpParent = tmpParent->parent;
+					}
+					return true;
+				}
+				else {
+					tmp=tmp->left;
+				}
+			}
+			else if (newnode->abbr > tmp->abbr) {
+				if (tmp->right == NULL) {
+					tmp->right = newnode;
+					tmp->right->parent = tmp;
+					TNode *tmpParent = tmp;
+					while(tmpParent != NULL){
+						setHeight(tmpParent);
+						tmpParent = tmpParent->parent;
+					}
+					return true;
+				}
+				else {
+					tmp=tmp->right;
+				}
+			}
+			else {
+				return false;
+			}
+		}
+	}
+	return false;
 }
