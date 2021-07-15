@@ -82,6 +82,16 @@ AVL::AVL(string ab, string d, bool debflag) {
 int AVL::getBalance(TNode *tmp) {
 /* method that finds the balance of a node tmp and returns that balance as an int
 */
+	if(tmp->right == NULL){
+		return tmp->left->height - 0;
+	}
+	else if(tmp->left == NULL){
+		return 0 - tmp->right->height;
+	}
+	else{
+		return tmp->left->height - tmp->right->height;
+	}
+
 }
 
 TNode *AVL::rotateRight(TNode *tmp) {
