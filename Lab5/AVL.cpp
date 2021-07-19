@@ -104,6 +104,11 @@ TNode *AVL::rotateRight(TNode *tmp) {
 	cout << "\t rotate right around " << tmp->abbr << endl;
 	TNode *movingUpNode = tmp->left;
 	tmp->left = movingUpNode->right;
+
+	if(tmp->left != NULL){
+		tmp->left->parent = tmp;
+	}
+
 	movingUpNode->right = tmp;
 
 	movingUpNode->parent = tmp->parent;
@@ -125,7 +130,6 @@ TNode *AVL::rotateRight(TNode *tmp) {
 	setHeight(tmp->right);
 	setHeight(tmp);
 	setHeight(movingUpNode);
-
 
 	return movingUpNode;
 
@@ -350,7 +354,7 @@ bool AVL::insert(string ab, string d) {
 						}
 						else if(getBalance(tmpParent) == -2){
 							if(tmpParent->right != NULL && getBalance(tmpParent->right) == 1){ // left-right
-								tmpParent = rotateRight(tmpParent->right);
+								rotateRight(tmpParent->right);
 								rotateLeft(tmpParent);
 							}
 							else{
