@@ -24,7 +24,7 @@ delete tree;
 
 
 /***** Part 2 testing the right rotations *****/
-
+/*
 Translator *tree = new Translator("TestRight.txt",true);
 cout << endl<<endl<<"************************************" << endl;
 cout <<"Preorder:" << endl;
@@ -39,7 +39,7 @@ cout << endl<<endl<<"************************************" << endl;
 	tree->tree->clearTree();
 
 	delete tree;
-
+*/
 /************End of Part 2 **********************/
 
 /***** Part 3 testing the right-left rotations *****/
