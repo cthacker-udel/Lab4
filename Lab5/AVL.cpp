@@ -105,6 +105,23 @@ TNode *AVL::rotateLeft(TNode *tmp) {
 }
 
 void AVL::setHeight(TNode *tmp) {
+
+	// check if node is leaf
+	if(tmp->left == NULL && tmp->right == NULL){
+		tmp->height = 1;
+	}
+	else{
+		if(tmp->left == NULL){
+			tmp->height = tmp->right->height+1;
+		}
+		else if(tmp->right == NULL){
+			tmp->height = tmp->left->height+1;
+		}
+		else{
+			tmp->height = tmp->left->height > tmp->right->height? tmp->left->height+1: tmp->left->height < tmp->right->height? tmp->right->height+1: tmp->left->height+1;
+		}
+	}
+
 /*
 This method sets the height of tmp and then of all the ancestors of tmp.  It stops when the height of a node does not change. Note that this method most likely calls getBalance and possibly the rotate methods, and may even set the newly rotated up node's parent attachement, although you could do that in the rotate method.
 */ 
