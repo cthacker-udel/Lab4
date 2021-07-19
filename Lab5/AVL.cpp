@@ -82,7 +82,11 @@ AVL::AVL(string ab, string d, bool debflag) {
 int AVL::getBalance(TNode *tmp) {
 /* method that finds the balance of a node tmp and returns that balance as an int
 */
-	if(tmp->right == NULL){
+
+	if(tmp->left == NULL && tmp->right == NULL){
+		return 0;
+	}
+	else if(tmp->right == NULL){
 		return tmp->left->height - 0;
 	}
 	else if(tmp->left == NULL){
@@ -97,7 +101,7 @@ int AVL::getBalance(TNode *tmp) {
 TNode *AVL::rotateRight(TNode *tmp) {
 /* rotates right around node tmp and returns the node rotated up.  Note: this method must reset the heights of the node rotated down and the nodes rotated up, and you must reset the heights of all nodes that are ancestors of the node rotated down.  You will also need to reattach the newly rotated up node to the rest of the tree either in this method or in setheights.
 */
-
+	cout << "\t rotate right around " << tmp->abbr << endl;
 	TNode *movingUpNode = tmp->left;
 	tmp->left = movingUpNode->right;
 	movingUpNode->right = tmp;
@@ -105,9 +109,23 @@ TNode *AVL::rotateRight(TNode *tmp) {
 	movingUpNode->parent = tmp->parent;
 	tmp->parent = movingUpNode;
 
-	if(tmp->left != NULL){
-		tmp->left->parent = tmp;
+	if(root == tmp){
+		root = movingUpNode;
 	}
+
+	if(movingUpNode->parent != NULL){
+		movingUpNode->parent->left = movingUpNode;
+	}
+
+	//if(tmp->left != NULL){
+	//	tmp->left->parent = tmp;
+	//}
+
+	setHeight(tmp->left);
+	setHeight(tmp->right);
+	setHeight(tmp);
+	setHeight(movingUpNode);
+
 
 	return movingUpNode;
 
@@ -116,18 +134,27 @@ TNode *AVL::rotateRight(TNode *tmp) {
 TNode *AVL::rotateLeft(TNode *tmp) {
 /* rotates down around node tmp and returns the node rotated up.  Note: this method must reset the heights of the node rotated down and the nodes rotated up, and you must reset the heights of all nodes that are ancestors of the node rotated down. You will also need to reattach the newly rotated up node to the rest of the tree either in this method or in setheights.
 */
-
+	cout << "\t rotate left around " << tmp->abbr << endl;
 	TNode *movingUpNode = tmp->right;
 	tmp->right = tmp->right->left;
 	movingUpNode->left = tmp;
 	movingUpNode->parent = tmp->parent;
 	tmp->parent = movingUpNode;
-
-
-	if(movingUpNode->left != NULL){
-		movingUpNode->left->parent = tmp;
+	if(root == tmp){
+		root = movingUpNode;
 	}
 
+	if(movingUpNode->parent != NULL){
+		movingUpNode->parent->right = movingUpNode;
+	}
+
+
+	//if(movingUpNode->left != NULL){
+	//	movingUpNode->left->parent = tmp;
+	//}
+
+	setHeight(tmp->left);
+	setHeight(tmp->right);
 	setHeight(tmp);
 	setHeight(movingUpNode);
 	return movingUpNode;
@@ -136,7 +163,10 @@ TNode *AVL::rotateLeft(TNode *tmp) {
 void AVL::setHeight(TNode *tmp) {
 
 	// check if node is leaf
-	if(tmp->left == NULL && tmp->right == NULL){
+	if(tmp == NULL){
+		return;
+	}
+	else if(tmp->left == NULL && tmp->right == NULL){
 		tmp->height = 1;
 	}
 	else{
@@ -309,6 +339,24 @@ bool AVL::insert(string ab, string d) {
 					TNode *tmpParent = tmp;
 					while(tmpParent != NULL){
 						setHeight(tmpParent);
+						if(getBalance(tmpParent) == 2){
+							if(tmpParent->left != NULL && getBalance(tmpParent->left) == -1){
+								rotateLeft(tmpParent->left);
+								rotateRight(tmpParent);
+							}
+							else{
+								rotateRight(tmpParent);
+							}
+						}
+						else if(getBalance(tmpParent) == -2){
+							if(tmpParent->right != NULL && getBalance(tmpParent->right) == 1){ // left-right
+								tmpParent = rotateRight(tmpParent->right);
+								rotateLeft(tmpParent);
+							}
+							else{
+								rotateLeft(tmpParent);
+							}
+						}
 						tmpParent = tmpParent->parent;
 					}
 					return true;
@@ -324,6 +372,24 @@ bool AVL::insert(string ab, string d) {
 					TNode *tmpParent = tmp;
 					while(tmpParent != NULL){
 						setHeight(tmpParent);
+						if(getBalance(tmpParent) == 2){
+							if(tmpParent->left != NULL && getBalance(tmpParent->left) == -1){
+								rotateLeft(tmpParent->left);
+								rotateRight(tmpParent);
+							}
+							else{
+								rotateRight(tmpParent);
+							}
+						}
+						else if(getBalance(tmpParent) == -2){
+							if(tmpParent->right != NULL && getBalance(tmpParent->right) == 1){ // left-right
+								tmpParent = rotateRight(tmpParent->right);
+								rotateLeft(tmpParent);
+							}
+							else{
+								rotateLeft(tmpParent);
+							}
+						}
 						tmpParent = tmpParent->parent;
 					}
 					return true;
