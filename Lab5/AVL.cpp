@@ -97,11 +97,40 @@ int AVL::getBalance(TNode *tmp) {
 TNode *AVL::rotateRight(TNode *tmp) {
 /* rotates right around node tmp and returns the node rotated up.  Note: this method must reset the heights of the node rotated down and the nodes rotated up, and you must reset the heights of all nodes that are ancestors of the node rotated down.  You will also need to reattach the newly rotated up node to the rest of the tree either in this method or in setheights.
 */
+
+	TNode *movingUpNode = tmp->left;
+	tmp->left = movingUpNode->right;
+	movingUpNode->right = tmp;
+
+	movingUpNode->parent = tmp->parent;
+	tmp->parent = movingUpNode;
+
+	if(tmp->left != NULL){
+		tmp->left->parent = tmp;
+	}
+
+	return movingUpNode;
+
 }
 
 TNode *AVL::rotateLeft(TNode *tmp) {
 /* rotates down around node tmp and returns the node rotated up.  Note: this method must reset the heights of the node rotated down and the nodes rotated up, and you must reset the heights of all nodes that are ancestors of the node rotated down. You will also need to reattach the newly rotated up node to the rest of the tree either in this method or in setheights.
 */
+
+	TNode *movingUpNode = tmp->right;
+	tmp->right = tmp->right->left;
+	movingUpNode->left = tmp;
+	movingUpNode->parent = tmp->parent;
+	tmp->parent = movingUpNode;
+
+
+	if(movingUpNode->left != NULL){
+		movingUpNode->left->parent = tmp;
+	}
+
+	setHeight(tmp);
+	setHeight(movingUpNode);
+	return movingUpNode;
 }
 
 void AVL::setHeight(TNode *tmp) {
